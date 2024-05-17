@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: unicorn-customer-app
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      - POSTGRES_USER=unicorn
+      - POSTGRES_PASSWORD=unicorn
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/unicorn
+      - SPRING_DATASOURCE_USERNAME=unicorn
+      - SPRING_DATASOURCE_PASSWORD=unicorn
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+
+  db:
+    image: postgres:15-alpine
+    container_name: unicorn-customer-db
+    environment:
+      - POSTGRES_USER=unicorn
+      - POSTGRES_PASSWORD=unicorn
+      - POSTGRES_DB=unicorn
+    ports:
+      - "5432:5432"
